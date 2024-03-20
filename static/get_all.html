@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Employee List</h2>
+
+    <table id="employeesTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Employees will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        async function fetchEmployees() {
+            const response = await fetch('http://localhost:3000/api/employees')
+            const data = await response.json()
+            const tableBody = document.getElementById('employeesTable').getElementsByTagName('tbody')[0];
+            data.forEach(employee => {
+                let row = tableBody.insertRow();
+                let cellId = row.insertCell(0);
+                let cellName = row.insertCell(1);
+                let cellAge = row.insertCell(2);
+                let cellAddress = row.insertCell(3);
+                let cellSalary = row.insertCell(4);
+
+                cellId.innerHTML = employee.id;
+                cellName.innerHTML = employee.name;
+                cellAge.innerHTML = employee.age;
+                cellAddress.innerHTML = employee.address;
+                cellSalary.innerHTML = employee.salary;
+            });
+        }
+
+        // Call fetchEmployees when the page loads
+        window.onload = async function () {
+            await fetchEmployees();
+        };
+    </script>
+
+</body>
+
+</html>

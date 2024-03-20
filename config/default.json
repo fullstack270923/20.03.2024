@@ -1,0 +1,15 @@
+{
+    "server": {
+        "port": 3000
+    },
+    "db_connection": {
+        "host": "localhost",
+        "user": "postgres",
+        "password": "admin",
+        "database": "postgres"
+    },
+    "logger": {
+        "level": "debug",
+        "file_path": "logs/log1.log"
+    }
+}
