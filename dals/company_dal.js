@@ -1,25 +1,17 @@
 
 const knex = require('knex')
-const express = require('express')
-const body_parser = require('body-parser')
-const path = require('path')
-const cors = require('cors')
 const config = require('config')
-const logger = require('./logger/my_logger')
-const company_dal = require('./dals/company_dal')
+const logger = require('../logger/my_logger')
 
-const app = express() // creates my server
-
-app.use(cors())
-
-app.use(body_parser.json()) // will help to get the body of the request 
-
-app.use(express.static(path.join('.', '/static/'))) // allows browsing to my static folder
-
-app.get('/api/employees', async (request, response) => {
-    const employees = await company_dal.get_all_employees()
-    response.status(200).json(employees)
-})
+async function get_all_employees() {
+    const employees = await data_base.raw("select * from company")
+    employees.rows = employees.rows.map(e => {
+        e.address = e.address.trimEnd();
+        return e;
+    })
+    logger.debug(`app.get /api/employees number of records: ${employees.rows.length}`)
+    return employees.rows
+}
 
 app.get('/api/employees/:id', async (request, response) => {
     // add try catch
@@ -182,4 +174,6 @@ const data_base = knex({
     }
 })
 
-
+module.exports = {
+    get_all_employees    
+}
